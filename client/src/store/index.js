@@ -59,6 +59,7 @@ export const useGlobalStore = () => {
       }
       // CREATE A NEW LIST
       case GlobalStoreActionType.CREATE_NEW_LIST: {
+        // ! PART 1
         return setStore({
           idNamePairs: store.idNamePairs,
           currentList: payload,
@@ -185,6 +186,7 @@ export const useGlobalStore = () => {
     }
     asyncSetCurrentList(id);
   };
+
   store.getPlaylistSize = function () {
     return store.currentList.songs.length;
   };
@@ -203,8 +205,24 @@ export const useGlobalStore = () => {
     });
   };
 
-  // ! PART 1 : NEW LIST CREATION - METHOD THAT CREATES A NEW LIST (WITHOUT POSTMAN)
-  store.createNewList = function () {};
+  // ! PART 1 : NEW LIST CREATION - METHOD THAT CREATES A NEW LIST
+  store.createNewList = function () {
+    async function asyncAddNewPlaylist() {
+      const playlist = { name: "Untitled", songs: [] };
+      const newPlaylist = await api.addNewPlaylist(playlist);
+      if (newPlaylist.data.success) {
+        storeReducer({
+          type: GlobalStoreActionType.CREATE_NEW_LIST,
+          payload: newPlaylist.data.playlist,
+        });
+        store.setCurrentList(newPlaylist.data.playlist._id);
+      }
+    }
+    asyncAddNewPlaylist();
+  };
+
+  // ! PART 3 : ADD NEW SONG TO CURRENT PLAYLIST
+  store.addNewSongToList = function () {};
 
   // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
   return { store, storeReducer };
