@@ -11,6 +11,10 @@ function SongCard(props) {
     event.stopPropagation();
     store.markPlaylist(store.currentList._id); // ! We now know which playlist to delete from store, use this in the modal
     store.markSongForEditOrDelete(song, index); // ! We know which song to delete from the playlist
+
+    let span = document.getElementById("delete-song-span");
+    span.innerText = song.title;
+
     let modal = document.getElementById("delete-song-modal");
     modal.classList.add("is-visible");
   }
@@ -19,6 +23,11 @@ function SongCard(props) {
     event.stopPropagation();
     store.markPlaylist(store.currentList._id); // ! We now know which playlist to delete from store, use this in the modal
     store.markSongForEditOrDelete(song, index); // ! We know which song to delete from the playlist
+
+    document.getElementById("edit-modal-title-input").value = song.title;
+    document.getElementById("edit-modal-artist-input").value = song.artist;
+    document.getElementById("edit-modal-id-input").value = song.youTubeId;
+
     let modal = document.getElementById("edit-song-modal");
     modal.classList.add("is-visible");
   }

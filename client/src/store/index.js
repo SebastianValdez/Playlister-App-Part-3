@@ -328,7 +328,20 @@ export const useGlobalStore = () => {
   };
 
   // ! PART 4 : EDITING A SONG IN THE PLAYLIST
-  store.editSong = function (id) {};
+  store.editSong = function (song, index) {
+    async function asyncEditSong(song, index) {
+      let songs = store.currentList.songs;
+      songs[index] = song;
+      let newSongs = {
+        songs: songs,
+      };
+      const playlist = await api.editSong(store.currentList._id, newSongs);
+      if (playlist.data.success) {
+        store.setCurrentList(playlist.data.playlist._id);
+      }
+    }
+    asyncEditSong(song, index);
+  };
 
   // ! PART 5 : DELETING A SONG FROM THE PLAYLIST
   store.deleteSong = function (song, index) {

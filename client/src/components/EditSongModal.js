@@ -6,6 +6,22 @@ function EditSongModal() {
   const { store } = useContext(GlobalStoreContext);
   const history = useHistory();
 
+  function handleEditSong() {
+    const song = {
+      title: document.getElementById("edit-modal-title-input").value,
+      artist: document.getElementById("edit-modal-artist-input").value,
+      youTubeId: document.getElementById("edit-modal-id-input").value,
+    };
+    store.editSong(song, store.index);
+    let modal = document.getElementById("edit-song-modal");
+    modal.classList.remove("is-visible");
+  }
+
+  function handleCloseEditModal() {
+    let modal = document.getElementById("edit-song-modal");
+    modal.classList.remove("is-visible");
+  }
+
   return (
     <div class="modal" id="edit-song-modal" data-animation="slideInOutLeft">
       <div class="modal-root" id="verify-delete-list-root">
@@ -30,12 +46,14 @@ function EditSongModal() {
             id="edit-song-confirm-button"
             class="modal-button"
             value="Confirm"
+            onClick={handleEditSong}
           />
           <input
             type="button"
             id="edit-song-cancel-button"
             class="modal-button"
             value="Cancel"
+            onClick={handleCloseEditModal}
           />
         </div>
       </div>

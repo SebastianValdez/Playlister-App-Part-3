@@ -7,9 +7,9 @@ function DeleteSongModal() {
   const history = useHistory();
 
   const name = "";
-  if (store.song) {
-    name = store.song.title;
-  }
+  // if (store.song) {
+  //   name = store.song.title;
+  // }
 
   function handleDeleteSong() {
     store.deleteSong(store.song, store.index);
@@ -28,8 +28,8 @@ function DeleteSongModal() {
         <div class="modal-north">Remove song?</div>
         <div class="modal-center">
           <div class="modal-center-content">
-            Are you sure you wish to permanently remove <span> {name} </span>{" "}
-            from the playlist?
+            Are you sure you wish to permanently remove{" "}
+            <span id="delete-song-span"></span> from the playlist?
           </div>
         </div>
         <div class="modal-south">
