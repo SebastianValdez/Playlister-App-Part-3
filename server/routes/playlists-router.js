@@ -15,8 +15,8 @@ router.get("/playlistpairs", PlaylistController.getPlaylistPairs); // ! Gets all
 
 router.delete("/playlist/:id", PlaylistController.deletePlaylist); // ! PART 2 - Playlist deletion
 
-router.post("/playlist/:id/editSong", PlaylistController.editSong); // ! PART 5 - Editing a song from the current list
+//router.post("/playlist/:id/editSong", PlaylistController.editSong); // ! PART 5 - Editing a song from the current list
 router.post("/playlist/:id/song", PlaylistController.deleteSong); // ! PART 6 - Removing a song from the current list
-router.post("/playlist/:id", PlaylistController.addSong); // ! PART 3 - Adding a song to a list
+router.post("/playlist/:id", PlaylistController.updatePlaylist); // ! PART 3 - Adding a song to a list
 
 module.exports = router;

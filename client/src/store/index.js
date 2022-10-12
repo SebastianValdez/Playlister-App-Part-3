@@ -221,8 +221,26 @@ export const useGlobalStore = () => {
     asyncAddNewPlaylist();
   };
 
+  // ! PART 2 : DELETING A PLAYLIST
+  store.deleteList = function () {};
+
   // ! PART 3 : ADD NEW SONG TO CURRENT PLAYLIST
-  store.addNewSongToList = function () {};
+  store.addNewSongToList = function (id) {
+    async function asyncAddNewSong(id) {
+      const songs = store.currentList.songs;
+      const song = {
+        title: "Untitled",
+        artist: "Untitled",
+        youTubeId: "dQw4w9WgXcQ",
+      };
+      songs.push(song);
+      const newPlaylist = await api.addNewSong(id, store.currentList);
+      if (newPlaylist.data.success) {
+        store.setCurrentList(newPlaylist.data.playlist._id);
+      }
+    }
+    asyncAddNewSong(id);
+  };
 
   // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
   return { store, storeReducer };

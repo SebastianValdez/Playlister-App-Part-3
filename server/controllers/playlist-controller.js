@@ -121,12 +121,8 @@ addSong = async (req, res) => {
   );
 };
 
-// ! PART 5 - Editing a song in the current playlist, This will also be used for move song
-editSong = async (req, res) => {
-  const playlist1 = await Playlist.findById({ _id: req.params.id });
-  console.log(playlist1);
-  console.log("Songs ", req.body.songs);
-  console.log("Body ", req.body);
+// ! UNIVERSAL METHOD THAT CHANGES THE LIST OF THE CURRENT PLAYLIST
+updatePlaylist = async (req, res) => {
   const playlist = await Playlist.findOneAndUpdate(
     { _id: req.params.id },
     { songs: req.body.songs },
@@ -167,6 +163,6 @@ module.exports = {
   getPlaylistById,
   deletePlaylist,
   addSong,
-  editSong,
+  updatePlaylist,
   deleteSong,
 };
