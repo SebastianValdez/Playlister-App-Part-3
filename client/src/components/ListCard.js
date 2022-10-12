@@ -50,6 +50,14 @@ function ListCard(props) {
     setText(event.target.value);
   }
 
+  // ! PART 2 - Deleting a list, this activates the delete list modal
+  function handleToggleDelete(event) {
+    event.stopPropagation();
+    store.markPlaylist(idNamePair._id); // ! We now know which playlist to delete from store, use this in the modal
+    let modal = document.getElementById("delete-list-modal");
+    modal.classList.add("is-visible");
+  }
+
   let selectClass = "unselected-list-card";
   if (selected) {
     selectClass = "selected-list-card";
@@ -77,6 +85,7 @@ function ListCard(props) {
         type="button"
         id={"delete-list-" + idNamePair._id}
         className="list-card-button"
+        onClick={handleToggleDelete}
         value={"\u2715"}
       />
       <input
