@@ -20,6 +20,7 @@ export const GlobalStoreActionType = {
   SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
   MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
   DELETE_LIST: "DELETE_LIST",
+  MARK_SONG_FOR_EDIT_OR_DELETE: "MARK_SONG_FOR_EDIT_OR_DELETE",
 };
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -35,6 +36,8 @@ export const useGlobalStore = () => {
     newListCounter: 0,
     listNameActive: false,
     markedList: 0, // ! For playlist deletion, song deleting, and song editing | We need to mark a playlist for each of these scenarios
+    song: null,
+    index: 0,
   });
 
   // HERE'S THE DATA STORE'S REDUCER, IT MUST
@@ -50,6 +53,8 @@ export const useGlobalStore = () => {
           newListCounter: store.newListCounter,
           listNameActive: false,
           markedList: 0,
+          song: null,
+          index: 0,
         });
       }
       // STOP EDITING THE CURRENT LIST
@@ -60,6 +65,8 @@ export const useGlobalStore = () => {
           newListCounter: store.newListCounter,
           listNameActive: false,
           markedList: 0,
+          song: null,
+          index: 0,
         });
       }
       // CREATE A NEW LIST
@@ -71,6 +78,8 @@ export const useGlobalStore = () => {
           newListCounter: store.newListCounter + 1,
           listNameActive: false,
           markedList: 0,
+          song: null,
+          index: 0,
         });
       }
       // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -81,16 +90,20 @@ export const useGlobalStore = () => {
           newListCounter: store.newListCounter,
           listNameActive: false,
           markedList: 0,
+          song: null,
+          index: 0,
         });
       }
       // ! PART 2 - PREPARE TO DELETE A LIST
       case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
         return setStore({
           idNamePairs: store.idNamePairs,
-          currentList: null,
+          currentList: store.currentList,
           newListCounter: store.newListCounter,
           listNameActive: false,
           markedList: payload,
+          song: null,
+          index: 0,
         });
       }
       // UPDATE A LIST
@@ -101,6 +114,8 @@ export const useGlobalStore = () => {
           newListCounter: store.newListCounter,
           listNameActive: false,
           markedList: 0,
+          song: null,
+          index: 0,
         });
       }
       // START EDITING A LIST NAME
@@ -111,6 +126,8 @@ export const useGlobalStore = () => {
           newListCounter: store.newListCounter,
           listNameActive: true,
           markedList: 0,
+          song: null,
+          index: 0,
         });
       }
       //! PART 2 - DELETE THE LIST AND UPDATE THE STATE
@@ -121,6 +138,20 @@ export const useGlobalStore = () => {
           newListCounter: payload.newListCounter,
           listNameActive: false,
           markedList: 0,
+          song: null,
+          index: 0,
+        });
+      }
+
+      case GlobalStoreActionType.MARK_SONG_FOR_EDIT_OR_DELETE: {
+        return setStore({
+          idNamePairs: store.idNamePairs,
+          currentList: store.currentList,
+          newListCounter: payload.newListCounter,
+          listNameActive: false,
+          markedList: store.markedList,
+          song: payload.song,
+          index: payload.index,
         });
       }
 
@@ -286,13 +317,33 @@ export const useGlobalStore = () => {
     asyncAddNewSong(id);
   };
 
+  store.markSongForEditOrDelete = function (song, index) {
+    storeReducer({
+      type: GlobalStoreActionType.MARK_SONG_FOR_EDIT_OR_DELETE,
+      payload: {
+        song: song,
+        index: index,
+      },
+    });
+  };
+
   // ! PART 4 : EDITING A SONG IN THE PLAYLIST
   store.editSong = function (id) {};
 
   // ! PART 5 : DELETING A SONG FROM THE PLAYLIST
-  store.deleteSong = function (id) {
-    async function asyncDeleteSong(id) {}
-    asyncDeleteSong(id);
+  store.deleteSong = function (song, index) {
+    async function asyncDeleteSong(song, index) {
+      let songs = store.currentList.songs;
+      songs.splice(index, 1);
+      let newSongs = {
+        songs: songs,
+      };
+      const playlist = await api.deleteSong(store.currentList._id, newSongs);
+      if (playlist.data.success) {
+        store.setCurrentList(playlist.data.playlist._id);
+      }
+    }
+    asyncDeleteSong(song, index);
   };
 
   // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

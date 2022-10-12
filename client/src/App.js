@@ -7,6 +7,8 @@ import {
   PlaylistCards,
   Statusbar,
   DeleteListModal,
+  DeleteSongModal,
+  EditSongModal,
 } from "./components";
 /*
     This is our application's top-level component.
@@ -18,6 +20,8 @@ const App = () => {
     <Router>
       <Banner />
       <Route exact component={DeleteListModal} />
+      <Route exact component={DeleteSongModal} />
+      <Route exact component={EditSongModal} />
       <Switch>
         <Route path="/" exact component={ListSelector} />
         <Route path="/playlist/:id" exact component={PlaylistCards} />

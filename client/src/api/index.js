@@ -26,7 +26,8 @@ export const getPlaylistPairs = () => api.get("playlistpairs");
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`);
 export const addNewPlaylist = (payload) => api.post(`/playlist`, payload); // ! PART 1 - Adding a new playlist
 export const deletePlaylist = (id) => api.delete(`/playlist/${id}`); // ! PART 2 - Deleting a playlist
-export const addNewSong = (id, payload) => api.post(`/playlist/${id}`, payload); // ! PART 3 - Adding a new song to a list
+export const addNewSong = (id, payload) => api.post(`/playlist/${id}`, payload); // ! PART 3 - Adding a new song to a list (uses te same route)
+export const deleteSong = (id, payload) => api.post(`/playlist/${id}`, payload); // ! PART 5 - Deleting a song (uses the same route)
 
 const apis = {
   getAllPlaylists,
@@ -35,6 +36,7 @@ const apis = {
   addNewPlaylist,
   deletePlaylist,
   addNewSong,
+  deleteSong,
 };
 
 export default apis;
