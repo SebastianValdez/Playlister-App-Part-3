@@ -359,6 +359,39 @@ export const useGlobalStore = () => {
     asyncDeleteSong(song, index);
   };
 
+  // ! PART 6 - HANDLE THE MOVEMENT OF SONG CARDS
+  store.moveSong = function (start, end) {
+    async function asyncMoveSong(start, end) {
+      let songs = store.currentList.songs;
+
+      if (start < end) {
+        let temp = songs[start];
+        for (let i = start; i < end; i++) {
+          songs[i] = songs[i + 1];
+          console.log(i + 1);
+          console.log(songs[i]);
+          console.log(songs[i + 1]);
+        }
+        songs[end] = temp;
+      } else if (start > end) {
+        let temp = songs[start];
+        for (let i = start; i > end; i--) {
+          songs[i] = songs[i - 1];
+        }
+        songs[end] = temp;
+      }
+
+      let newSongs = {
+        songs: songs,
+      };
+      const playlist = await api.moveSong(store.currentList._id, newSongs);
+      if (playlist.data.success) {
+        store.setCurrentList(playlist.data.playlist._id);
+      }
+    }
+    asyncMoveSong(start, end);
+  };
+
   // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
   return { store, storeReducer };
 };

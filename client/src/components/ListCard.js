@@ -54,6 +54,12 @@ function ListCard(props) {
   function handleToggleDelete(event) {
     event.stopPropagation();
     store.markPlaylist(idNamePair._id); // ! We now know which playlist to delete from store, use this in the modal
+
+    let span1 = document.getElementById("delete-list-span-1");
+    let span2 = document.getElementById("delete-list-span-2");
+    span1.innerHTML = idNamePair.name;
+    span2.innerHTML = idNamePair.name;
+
     let modal = document.getElementById("delete-list-modal");
     modal.classList.add("is-visible");
   }

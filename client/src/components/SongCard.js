@@ -7,6 +7,39 @@ function SongCard(props) {
   const { song, index } = props;
   let cardClass = "list-card unselected-list-card";
 
+  // ! Move Song Start
+  function handleDragStart(event) {
+    event.dataTransfer.setData("song", event.target.id);
+  }
+  function handleDragOver(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  function handleDragEnter(event) {
+    event.preventDefault();
+  }
+  function handleDragLeave(event) {
+    event.preventDefault();
+  }
+  function handleDrop(event) {
+    event.preventDefault();
+    let target = event.target;
+    let targetId = target.id;
+    targetId = targetId.substring(
+      target.id.indexOf("-") + 1,
+      target.id.indexOf("-") + 2
+    );
+    let sourceId = event.dataTransfer.getData("song");
+    sourceId = sourceId.substring(
+      sourceId.indexOf("-") + 1,
+      sourceId.indexOf("-") + 2 // ! This is wrong?
+    );
+
+    // ASK THE MODEL TO MOVE THE DATA
+    store.moveSong(parseInt(sourceId), parseInt(targetId));
+  }
+  // ! Move Song End
+
   function handleDeleteSong(event) {
     event.stopPropagation();
     store.markPlaylist(store.currentList._id); // ! We now know which playlist to delete from store, use this in the modal
@@ -37,6 +70,12 @@ function SongCard(props) {
       key={index}
       id={"song-" + index + "-card"}
       className={cardClass}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      draggable="true"
       onDoubleClick={handleEditSong}
     >
       {index + 1}.
