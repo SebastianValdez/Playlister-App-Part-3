@@ -1,6 +1,10 @@
 import { createContext, useState } from "react";
 import jsTPS from "../common/jsTPS";
 import api from "../api";
+import AddSong_Transaction from "../transactions/AddSong_Transaction";
+import DeleteSong_Transaction from "../transactions/DeleteSong_Transaction";
+import EditSong_Transaction from "../transactions/EditSong_Transaction";
+import MoveSong_Transaction from "../transactions/MoveSong_Transaction";
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -390,6 +394,40 @@ export const useGlobalStore = () => {
       }
     }
     asyncMoveSong(start, end);
+  };
+
+  // ! AUXILARY FUNCTION USED BY THE DELETE SONG TRANSACTION
+  store.addOldSong = function (id, index, song) {
+    async function asyncAddOldSong(id, index, song) {
+      let songs = store.currentList.songs;
+      songs.splice(index, 0, song);
+      const playlist = await api.addNewSong(id, store.currentList);
+      if (playlist.data.success) {
+        store.setCurrentList(playlist.data.playlist._id);
+      }
+    }
+    asyncAddOldSong(id, index, song);
+  };
+
+  // ! TRANSACTIONS
+  store.addSongTransaction = function () {
+    let transaction = new AddSong_Transaction(store);
+    tps.addTransaction(transaction);
+  };
+
+  store.deleteSongTransaction = function () {
+    let transaction = new DeleteSong_Transaction(store);
+    tps.addTransaction(transaction);
+  };
+
+  store.editSongTransaction = function () {
+    let transaction = new EditSong_Transaction(store);
+    tps.addTransaction(transaction);
+  };
+
+  store.moveSongTransaction = function () {
+    let transaction = new MoveSong_Transaction(store);
+    tps.addTransaction(transaction);
   };
 
   // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
