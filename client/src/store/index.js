@@ -348,8 +348,8 @@ export const useGlobalStore = () => {
   };
 
   // ! PART 5 : DELETING A SONG FROM THE PLAYLIST
-  store.deleteSong = function (song, index) {
-    async function asyncDeleteSong(song, index) {
+  store.deleteSong = function (index) {
+    async function asyncDeleteSong(index) {
       let songs = store.currentList.songs;
       songs.splice(index, 1);
       let newSongs = {
@@ -360,7 +360,7 @@ export const useGlobalStore = () => {
         store.setCurrentList(playlist.data.playlist._id);
       }
     }
-    asyncDeleteSong(song, index);
+    asyncDeleteSong(index);
   };
 
   // ! PART 6 - HANDLE THE MOVEMENT OF SONG CARDS
@@ -410,23 +410,23 @@ export const useGlobalStore = () => {
   };
 
   // ! TRANSACTIONS
-  store.addSongTransaction = function () {
+  store.addSongTransaction = function (id) {
     let transaction = new AddSong_Transaction(store);
     tps.addTransaction(transaction);
   };
 
-  store.deleteSongTransaction = function () {
-    let transaction = new DeleteSong_Transaction(store);
+  store.deleteSongTransaction = function (song, index) {
+    let transaction = new DeleteSong_Transaction(store, song, index);
     tps.addTransaction(transaction);
   };
 
-  store.editSongTransaction = function () {
-    let transaction = new EditSong_Transaction(store);
+  store.editSongTransaction = function (index, oldSong, newSong) {
+    let transaction = new EditSong_Transaction(store, index, oldSong, newSong);
     tps.addTransaction(transaction);
   };
 
-  store.moveSongTransaction = function () {
-    let transaction = new MoveSong_Transaction(store);
+  store.moveSongTransaction = function (start, end) {
+    let transaction = new MoveSong_Transaction(store, start, end);
     tps.addTransaction(transaction);
   };
 

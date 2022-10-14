@@ -7,12 +7,17 @@ function EditSongModal() {
   const history = useHistory();
 
   function handleEditSong() {
+    const oldSong = {
+      title: store.song.title,
+      artist: store.song.artist,
+      youTubeId: store.song.youTubeId,
+    };
     const song = {
       title: document.getElementById("edit-modal-title-input").value,
       artist: document.getElementById("edit-modal-artist-input").value,
       youTubeId: document.getElementById("edit-modal-id-input").value,
     };
-    store.editSong(song, store.index);
+    store.editSongTransaction(store.index, oldSong, song);
     let modal = document.getElementById("edit-song-modal");
     modal.classList.remove("is-visible");
   }

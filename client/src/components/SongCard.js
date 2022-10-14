@@ -36,7 +36,7 @@ function SongCard(props) {
     );
 
     // ASK THE MODEL TO MOVE THE DATA
-    store.moveSong(parseInt(sourceId), parseInt(targetId));
+    store.moveSongTransaction(parseInt(sourceId), parseInt(targetId));
   }
   // ! Move Song End
 

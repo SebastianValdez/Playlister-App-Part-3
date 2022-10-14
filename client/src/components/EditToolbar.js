@@ -28,7 +28,7 @@ function EditToolbar() {
 
   // ! PART 3 - Adding a new song
   function handleAddNewSong() {
-    store.addNewSongToList(store.currentList._id);
+    store.addSongTransaction(store.currentList._id);
   }
 
   let editStatus = false;
