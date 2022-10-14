@@ -12,9 +12,9 @@ router.post("/playlist", PlaylistController.createPlaylist); // ! Playlist Creat
 router.get("/playlist/:id", PlaylistController.getPlaylistById); // ! Gets a single playlist
 router.get("/playlists", PlaylistController.getPlaylists); // ! Gets all playlists
 router.get("/playlistpairs", PlaylistController.getPlaylistPairs); // ! Gets all playlists by title and id pairs
+router.put("/playlist/:id", PlaylistController.updatePlaylistName); // ! Updates the name of the playlist
 
 router.delete("/playlist/:id", PlaylistController.deletePlaylist); // ! PART 2 - Playlist deletion
-
 //router.post("/playlist/:id/editSong", PlaylistController.editSong); // ! PART 5 - Editing a song from the current list
 router.post("/playlist/:id/song", PlaylistController.deleteSong); // ! PART 6 - Removing a song from the current list
 router.post("/playlist/:id", PlaylistController.updatePlaylist); // ! PART 3 - Adding a song to a list

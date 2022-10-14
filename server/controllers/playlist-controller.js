@@ -86,6 +86,20 @@ getPlaylistPairs = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 
+updatePlaylistName = async (req, res) => {
+  const playlist = await Playlist.findOneAndUpdate(
+    { _id: req.params.id },
+    { name: req.body.name },
+    (err, playlist) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      } else {
+        return res.status(200).json({ success: true, playlist: playlist });
+      }
+    }
+  );
+};
+
 // ! PART 2 - Deleting a playlist
 deletePlaylist = async (req, res) => {
   const playlist = await Playlist.findById({ _id: req.params.id });
@@ -161,6 +175,7 @@ module.exports = {
   getPlaylists,
   getPlaylistPairs,
   getPlaylistById,
+  updatePlaylistName,
   deletePlaylist,
   addSong,
   updatePlaylist,

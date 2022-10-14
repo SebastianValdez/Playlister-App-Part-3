@@ -24,6 +24,8 @@ const api = axios.create({
 export const getAllPlaylists = () => api.get(`/playlists`);
 export const getPlaylistPairs = () => api.get("playlistpairs");
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`);
+export const updatePlaylistById = (id, payload) =>
+  api.put(`/playlist/${id}`, payload); // ! Updates the name of the playlist
 export const addNewPlaylist = (payload) => api.post(`/playlist`, payload); // ! PART 1 - Adding a new playlist
 export const deletePlaylist = (id) => api.delete(`/playlist/${id}`); // ! PART 2 - Deleting a playlist
 export const addNewSong = (id, payload) => api.post(`/playlist/${id}`, payload); // ! PART 3 - Adding a new song to a list (uses te same route)
@@ -35,6 +37,7 @@ const apis = {
   getAllPlaylists,
   getPlaylistPairs,
   getPlaylistById,
+  updatePlaylistById,
   addNewPlaylist,
   deletePlaylist,
   addNewSong,
