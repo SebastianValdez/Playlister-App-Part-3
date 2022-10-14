@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import jsTPS from "../common/jsTPS";
 import api from "../api";
 import AddSong_Transaction from "../transactions/AddSong_Transaction";
@@ -206,6 +206,14 @@ export const useGlobalStore = () => {
       type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
       payload: {},
     });
+
+    tps.clearAllTransactions();
+
+    // ! Disables all buttons but add playlist
+    document.getElementById("add-song-button").disabled = true;
+    document.getElementById("undo-button").disabled = true;
+    document.getElementById("redo-button").disabled = true;
+    document.getElementById("close-button").disabled = true;
   };
 
   // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -241,6 +249,12 @@ export const useGlobalStore = () => {
       }
     }
     asyncSetCurrentList(id);
+
+    // ! Enables add song button and close button automatically
+    document.getElementById("add-song-button").disabled = false;
+    document.getElementById("undo-button").disabled = true;
+    document.getElementById("redo-button").disabled = true;
+    document.getElementById("close-button").disabled = false;
   };
 
   store.getPlaylistSize = function () {
@@ -259,6 +273,24 @@ export const useGlobalStore = () => {
       type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
       payload: null,
     });
+  };
+
+  // ! Helper function that basically does the same thing as set current list, but without adding to history
+  store.refreshList = function (id) {
+    async function asyncSetCurrentList(id) {
+      let response = await api.getPlaylistById(id);
+      if (response.data.success) {
+        let playlist = response.data.playlist;
+
+        if (response.data.success) {
+          storeReducer({
+            type: GlobalStoreActionType.SET_CURRENT_LIST,
+            payload: playlist,
+          });
+        }
+      }
+    }
+    asyncSetCurrentList(id);
   };
 
   // ! PART 1 : NEW LIST CREATION - METHOD THAT CREATES A NEW LIST
@@ -315,7 +347,7 @@ export const useGlobalStore = () => {
       songs.push(song);
       const newPlaylist = await api.addNewSong(id, store.currentList);
       if (newPlaylist.data.success) {
-        store.setCurrentList(newPlaylist.data.playlist._id);
+        store.refreshList(newPlaylist.data.playlist._id);
       }
     }
     asyncAddNewSong(id);
@@ -341,7 +373,7 @@ export const useGlobalStore = () => {
       };
       const playlist = await api.editSong(store.currentList._id, newSongs);
       if (playlist.data.success) {
-        store.setCurrentList(playlist.data.playlist._id);
+        store.refreshList(playlist.data.playlist._id);
       }
     }
     asyncEditSong(song, index);
@@ -357,7 +389,7 @@ export const useGlobalStore = () => {
       };
       const playlist = await api.deleteSong(store.currentList._id, newSongs);
       if (playlist.data.success) {
-        store.setCurrentList(playlist.data.playlist._id);
+        store.refreshList(playlist.data.playlist._id);
       }
     }
     asyncDeleteSong(index);
@@ -390,7 +422,7 @@ export const useGlobalStore = () => {
       };
       const playlist = await api.moveSong(store.currentList._id, newSongs);
       if (playlist.data.success) {
-        store.setCurrentList(playlist.data.playlist._id);
+        store.refreshList(playlist.data.playlist._id);
       }
     }
     asyncMoveSong(start, end);
@@ -403,7 +435,7 @@ export const useGlobalStore = () => {
       songs.splice(index, 0, song);
       const playlist = await api.addNewSong(id, store.currentList);
       if (playlist.data.success) {
-        store.setCurrentList(playlist.data.playlist._id);
+        store.refreshList(playlist.data.playlist._id);
       }
     }
     asyncAddOldSong(id, index, song);

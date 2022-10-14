@@ -60,6 +60,7 @@ body {
   grid-row: 1 / 2;
   background-color: transparent;
   float:right;
+  display: flex; /* ! Fixes the buttons being differently shaped */
 }
 
 #playlist-selector, #playlist-cards {
@@ -68,6 +69,16 @@ body {
   grid-row: 2 / 3;
   display:grid;
   background-color: var(--swatch-primary);
+}
+
+
+
+/* ! Added this to fix the banner */
+#playlist-selector-heading { 
+  font-size: 50px;
+  background-image: linear-gradient(to bottom,         
+  #b8b808, #636723);
+  color: #e6e6e6;
 }
 
 .playlister-button, .playlister-button-disabled {
@@ -85,7 +96,7 @@ body {
 }
 
 .playlister-button-disabled {
-  opacity: 0.25; 
+  opacity: 70%; 
   cursor: not-allowed;
 }
 
