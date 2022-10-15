@@ -19,16 +19,6 @@ const ListSelector = () => {
     document.getElementById("undo-button").disabled = true;
     document.getElementById("redo-button").disabled = true;
     document.getElementById("close-button").disabled = true;
-
-    document.addEventListener("keydown", (event) => {
-      if (!this.state.modalIsOpen) {
-        if (event.ctrlKey && (event.key === "z" || event.key === "Z")) {
-          this.undo();
-        } else if (event.ctrlKey && (event.key === "y" || event.key === "Y")) {
-          this.redo();
-        }
-      }
-    });
   }, []);
 
   function handleCreateNewList() {
