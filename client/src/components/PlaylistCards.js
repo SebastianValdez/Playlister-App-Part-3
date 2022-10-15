@@ -12,6 +12,7 @@ function PlaylistCards() {
   const { store } = useContext(GlobalStoreContext);
   store.history = useHistory();
 
+  // ! Allows for Ctrl-z and Ctrl-y functionality
   useEffect(() => {
     document.addEventListener("keydown", handleCtrlZ);
     document.addEventListener("keydown", handleCtrlY);
@@ -36,6 +37,11 @@ function PlaylistCards() {
       if (redoButton && redoButton.className == "playlister-button")
         redoButton.click();
   }, []);
+
+  if (!store.currentList) {
+    store.history.push("/");
+    return null;
+  }
 
   return (
     <div id="playlist-cards">

@@ -20,6 +20,7 @@ function EditSongModal() {
     store.editSongTransaction(store.index, oldSong, song);
     let modal = document.getElementById("edit-song-modal");
     modal.classList.remove("is-visible");
+    store.closeModal();
   }
 
   function handleCloseEditModal() {

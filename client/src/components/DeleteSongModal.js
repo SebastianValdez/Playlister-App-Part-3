@@ -10,6 +10,7 @@ function DeleteSongModal() {
     store.deleteSongTransaction(store.song, store.index);
     let modal = document.getElementById("delete-song-modal");
     modal.classList.remove("is-visible");
+    store.closeModal();
   }
 
   function handleCloseDeleteSongModal() {
