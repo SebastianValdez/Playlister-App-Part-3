@@ -6,11 +6,6 @@ function DeleteSongModal() {
   const { store } = useContext(GlobalStoreContext);
   const history = useHistory();
 
-  const name = "";
-  // if (store.song) {
-  //   name = store.song.title;
-  // }
-
   function handleDeleteSong() {
     store.deleteSongTransaction(store.song, store.index);
     let modal = document.getElementById("delete-song-modal");
@@ -20,6 +15,7 @@ function DeleteSongModal() {
   function handleCloseDeleteSongModal() {
     let modal = document.getElementById("delete-song-modal");
     modal.classList.remove("is-visible");
+    store.closeModal();
   }
 
   return (

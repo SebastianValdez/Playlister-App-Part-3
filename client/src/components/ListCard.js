@@ -62,6 +62,12 @@ function ListCard(props) {
 
     let modal = document.getElementById("delete-list-modal");
     modal.classList.add("is-visible");
+
+    document.getElementById("add-list-button").disabled = true;
+    document.getElementById("add-song-button").disabled = true;
+    document.getElementById("undo-button").disabled = true;
+    document.getElementById("redo-button").disabled = true;
+    document.getElementById("close-button").disabled = true;
   }
 
   let selectClass = "unselected-list-card";

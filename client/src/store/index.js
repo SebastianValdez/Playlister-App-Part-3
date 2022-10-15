@@ -462,6 +462,20 @@ export const useGlobalStore = () => {
     tps.addTransaction(transaction);
   };
 
+  store.closeModal = function () {
+    if (store.currentList === null) {
+      document.getElementById("add-list-button").disabled = false;
+      document.getElementById("add-song-button").disabled = true;
+      document.getElementById("close-button").disabled = true;
+    } else {
+      document.getElementById("add-song-button").disabled = false;
+      document.getElementById("close-button").disabled = false;
+    }
+
+    tps.enableOrDisableUndoButton();
+    tps.enableOrDisableRedoButton();
+  };
+
   // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
   return { store, storeReducer };
 };

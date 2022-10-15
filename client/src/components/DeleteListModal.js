@@ -15,6 +15,7 @@ function DeleteListModal() {
   function handleCloseModal() {
     let modal = document.getElementById("delete-list-modal");
     modal.classList.remove("is-visible");
+    store.closeModal();
   }
 
   return (

@@ -25,6 +25,7 @@ function EditSongModal() {
   function handleCloseEditModal() {
     let modal = document.getElementById("edit-song-modal");
     modal.classList.remove("is-visible");
+    store.closeModal();
   }
 
   return (

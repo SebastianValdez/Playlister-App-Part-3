@@ -26,7 +26,6 @@ function PlaylistCards() {
     const undoButton = document.getElementById("undo-button");
     if (event.ctrlKey && (event.key === "z" || event.key === "Z"))
       if (undoButton && undoButton.className == "playlister-button") {
-        console.log("hello");
         undoButton.click();
       }
   }, []);

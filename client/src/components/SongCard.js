@@ -50,6 +50,11 @@ function SongCard(props) {
 
     let modal = document.getElementById("delete-song-modal");
     modal.classList.add("is-visible");
+
+    document.getElementById("add-song-button").disabled = true;
+    document.getElementById("undo-button").disabled = true;
+    document.getElementById("redo-button").disabled = true;
+    document.getElementById("close-button").disabled = true;
   }
 
   function handleEditSong(event) {
@@ -63,6 +68,11 @@ function SongCard(props) {
 
     let modal = document.getElementById("edit-song-modal");
     modal.classList.add("is-visible");
+
+    document.getElementById("add-song-button").disabled = true;
+    document.getElementById("undo-button").disabled = true;
+    document.getElementById("redo-button").disabled = true;
+    document.getElementById("close-button").disabled = true;
   }
 
   return (
