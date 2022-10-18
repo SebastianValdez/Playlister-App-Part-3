@@ -98,7 +98,7 @@ function ListCard(props) {
         id={"delete-list-" + idNamePair._id}
         className="list-card-button"
         onClick={handleToggleDelete}
-        value={"\u2715"}
+        value={"🗑"}
       />
       <input
         disabled={cardStatus}

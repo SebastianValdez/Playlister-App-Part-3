@@ -55,6 +55,8 @@ body {
   border-width: 2px;
   border-style: solid;
   border-radius: 10px;
+  display: flex;
+  justify-content:space-between
 }
 
 #edit-toolbar {
@@ -79,8 +81,6 @@ body {
   overflow: scroll;
 }
 
-
-
 /* ! Added this to fix the banner */
 #playlist-selector-heading { 
   font-size: 50px;
@@ -91,11 +91,13 @@ body {
 
 .playlister-button, .playlister-button-disabled {
   font-size:36pt;
-  border-width: 0px;
+  border-width: 1px;
   float:left;
   color: black;
   cursor: pointer;
   opacity: 100%;
+  border-radius: 10px;
+  border-color: #111111;
 }
 
 .playlister-button:hover {
@@ -104,7 +106,7 @@ body {
 }
 
 .playlister-button-disabled {
-  opacity: 70%; 
+  opacity: 25%; 
   cursor: not-allowed;
 }
 
@@ -172,6 +174,12 @@ input {
 }
 
 /* THIS STYLE SHEET MANAGES STYLE FOR OUR MODAL, i.e. DIALOG BOX */
+
+#edit-song-inputs {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
 
 .modal {
   position: fixed;

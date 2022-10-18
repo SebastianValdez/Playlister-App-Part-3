@@ -53,7 +53,7 @@ export const useGlobalStore = () => {
       case GlobalStoreActionType.CHANGE_LIST_NAME: {
         return setStore({
           idNamePairs: payload.idNamePairs,
-          currentList: payload.playlist,
+          currentList: null,
           newListCounter: store.newListCounter,
           listNameActive: false,
           markedList: 0,
@@ -197,7 +197,7 @@ export const useGlobalStore = () => {
         updateList(playlist);
       }
     }
-    asyncChangeListName(id);
+    if (newName) asyncChangeListName(id);
   };
 
   // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
